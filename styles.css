@@ -1,0 +1,31 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameboard {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    flex-grow: 0;
+    justify-content: flex-start;
+    width: 500px;
+    height: 500px;
+    margin: 0px;
+    padding: 0px;
+    gap: 5px;
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 32%;
+    border: 1px solid black;
+}
+
+.players {
+    display: flex;
+    gap: 100px;
+}
