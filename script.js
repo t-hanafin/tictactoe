@@ -20,6 +20,7 @@ function Gameboard() {
 
 function GameController() {
     board = Gameboard(); 
+    const gameType = 1;
 
     const playerFactory = (name, symbol) => {
         return { name, symbol };
@@ -40,13 +41,15 @@ function GameController() {
     }
 
     const playRound = (buttonId) => {
-        board.addPiece(buttonId, activePlayer.symbol);
-        winner = (winScan(buttonId, activePlayer.symbol));
-        tie = Object.keys(board.getBoard()).length > 8;
-        if (!winner && !tie) {
-            switchPlayerTurn();
-        } else {
-            return (winner ? winner : tie);
+        if (gameType === 1) {
+            board.addPiece(buttonId, activePlayer.symbol);
+            winner = (winScan(buttonId, activePlayer.symbol));
+            tie = Object.keys(board.getBoard()).length > 8;
+            if (!winner && !tie) {
+                switchPlayerTurn();
+            } else {
+                return (winner ? winner : tie);
+            }
         }
     }
 
@@ -107,17 +110,18 @@ function GameController() {
     }
 
     // no idea how to make this work yet
-    const randomPiecePlacer = () => {
+    const rPP = () => {
+        var place;
         var cB = board.getBoard(); 
         var isBlank = false;
         do {
             place = (Math.floor(Math.random() * 10));
             isBlank = (cB[place] === undefined)
         } while (!isBlank);
-        playRound(place);
+        return place;
     }
 
-    return { playRound, getBoard: board.getBoard(), caseMatch, randomPiecePlacer }
+    return { playRound, getBoard: board.getBoard(), rPP }
 }
 
 function ScreenController() {
@@ -126,31 +130,35 @@ function ScreenController() {
     players = document.querySelector('.players');
     cells.forEach((cell) => {
         cell.addEventListener('mouseup', () => {
-            game.playRound(cell.id);
-            if (winner) {
-                updateScreen(cell.id);
-                displayWinMessage(cell.id);
-            } else if (tie) {
-                updateScreen(cell.id);
-                console.log('stupid tie');
-            } else {
-                updateScreen(cell.id);
-            }
+            outcome = game.playRound(cell.id);
+            outcomeTest(outcome, cell.id);
         })
     })
 
-    function updateScreen(cellID) {
+    function updateScreen(cellId) {
         let image = document.createElement('img');
         tempBoard = board.getBoard();
-        if (tempBoard[cellID] === "X") {
+        if (tempBoard[cellId] === "X") {
             image.src = "/cross.svg";
         } else {
             image.src = "/circle.svg";
         }
-        let thisCell = document.getElementById(cellID);
+        let thisCell = document.getElementById(cellId);
         thisCell.textContent = '';
         thisCell.appendChild(image);
         thisCell.style = "pointer-events: none";
+    }
+
+    function outcomeTest(outcome, cellId) {
+        if (winner) {
+            updateScreen(cellId);
+            displayWinMessage(cellId);
+        } else if (tie) {
+            updateScreen(cellId);
+            console.log('stupid tie');
+        } else {
+            updateScreen(cellId);
+        }
     }
 
     function displayWinMessage(buttonId) {
@@ -160,7 +168,7 @@ function ScreenController() {
             console.log('X is win');
             screen.style = "background-color: red";
         } else {
-            console.log('O is the win');
+            console.log('the win is O');
             screen.style = "background-color: yellow";
         }
         cells.forEach((cell) => {
