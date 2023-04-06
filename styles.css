@@ -1,4 +1,5 @@
 body {
+    position: absolute;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -14,15 +15,8 @@ body {
     flex-grow: 0;
     width: 500px;
     height: 500px;
-    border: 5px solid red;
 }
 
-.cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 0 0 32%;
-}
 
 .players {
     display: flex;
@@ -36,6 +30,27 @@ body {
 
 .players > p {
     border: 1px solid black;
+}
+
+.cell {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 32%;
+}
+
+/*     
+if it's at 45 degrees, the width is 141%. 
+*/
+
+.cell:after {
+    content: '';
+    position: absolute;
+    border-top: 5px solid red;
+    width: 141%;
+    transform: rotate(45deg);
+    display: none;
 }
 
 #cell0 {
@@ -75,7 +90,15 @@ body {
 }
 
 .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 0px;
-    background-color: white;
-    font-size: 2em;
+    background-color: yellow;
+    height: 50px;
+    width: 50px;
+}
+
+img {
+    width: 50%;
 }

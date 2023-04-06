@@ -10,17 +10,13 @@ function Gameboard() {
 
     const getBoard = () => board;
 
-    const log = () => {
-        console.log("hi from Gameboard module");
-    }
-
     function addPiece(buttonId, symbol) {
         if (board[buttonId] === 0 || board[buttonId] === null) {
             board[buttonId] = symbol;
         }
     }
 
-    return { log, getBoard, addPiece };
+    return { getBoard, addPiece };
 
 }
 
@@ -46,16 +42,12 @@ function GameController() {
     }
     
     const playRound = (buttonId) => {
-        // alert(`${activePlayer.name} pressed me, and i'm ${buttonId}`);
-        // This puts the player's symbol in the cell they select
         board.addPiece(buttonId, activePlayer.symbol);
-        console.log(board.getBoard());
         winner = (winScan(buttonId, activePlayer.symbol));
         if (!winner) {
             switchPlayerTurn();
-            console.log('next player\'s turn');
         } else {
-            console.log(`${activePlayer.symbol} won!!!`)
+            return winner;
         }
     }
 
@@ -96,68 +88,135 @@ function GameController() {
         var winner = false;
         for (arg of args) {
             if (arg === 1 && (!!(cB[0] === cB[1] && cB[0] === cB[2]))) {
-                return winner = true;
+                return winner = 1;
             } else if (arg === 2 && (!!(cB[3] === cB[4] && cB[3] === cB[5]))) {
-                return winner = true;
+                return winner = 2;
             } else if (arg === 3 && (!!(cB[6] === cB[7] && cB[6] === cB[8]))) {
-                return winner =  true;
+                return winner = 3;
             } else if (arg === 4 && (!!(cB[0] === cB[3] && cB[0] === cB[6]))) {
-                return winner =  true;
+                return winner =  4;
             } else if (arg === 5 && (!!(cB[1] === cB[4] && cB[1] === cB[7]))) {
-                return winner = true;
+                return winner = 5;
             } else if (arg === 6 && (!!(cB[2] === cB[5] && cB[2] === cB[8]))) {
-                return winner =  true;
+                return winner =  6;
             } else if (arg === 7 && (!!(cB[0] === cB[4] && cB[0] === cB[8]))) {
-                return winner = true;
+                return winner = 7;
             } else if (arg === 8 && (!!(cB[2] === cB[4] && cB[2] === cB[6]))) {
-                return winner = true;
+                return winner = 8;
             }
         }
     }
 
-    function log() {
-        console.log(activePlayer.symbol);
-    }
-
-    return { log, playRound, getBoard: board.getBoard() }
+    return { playRound, getBoard: board.getBoard(), caseMatch }
 }
 
 function ScreenController() {
     const game = GameController();
     let boardDiv = document.querySelector('.gameboard');
-    let cells = document.querySelector('.cell');
+    cells = document.querySelector('.cell');
     const buttons = document.querySelectorAll('.buttons');
     let i = 0;
     buttons.forEach((button) => {
         button.addEventListener('mouseup', () => {
             game.playRound(button.id);
-            updateScreen();
+            if (winner) {
+                updateScreen(button.id, winner);
+                displayWinMessage(button.id);
+            } else {
+                updateScreen(button.id);
+            }
         })
-        button.textContent = (game.getBoard[i]);
-        i++;
     })
 
-    function updateScreen() {
-        board2 = board.getBoard();
-        buttons.forEach((button) => {
-            if (board2[buttonId] === "X") {
-                
+    function updateScreen(buttonId) {
+        if (winner) {
+            drawWinLines(winner);
+        } else {
+            let image = document.createElement('img');
+            tempBoard = board.getBoard();
+            if (tempBoard[buttonId] === "X") {
+                image.src = "/cross.svg";
+            } else {
+                image.src = "/circle.svg";
             }
-            button.textContent = board2[button.id];
-        })
+            let thisButton = document.getElementById(buttonId);
+            thisButton.appendChild(image);
+            thisButton.disabled = true;
+        }
     }
 
-    function log() {
-        console.log(game.getBoard);
+    function drawWinLines(winner) {
+        var cellOne;
+        var cellTwo;
+        var cellThree;
+        switch (winner) {
+            case 1:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+            case 2:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+            case 3:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+
+            case 4:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+
+            case 5:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+
+            case 6:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+
+            case 7:
+                cellOne = document.getElementById(0);
+                cellTwo = document.getElementById(1);
+                cellThree = document.getElementById(2);
+
+            case 8:
+        }
     }
 
-    return { log };
+    /*
+
+                if (arg === 1 && (!!(cB[0] === cB[1] && cB[0] === cB[2]))) {
+                return winner = 1;
+            } else if (arg === 2 && (!!(cB[3] === cB[4] && cB[3] === cB[5]))) {
+                return winner = 2;
+            } else if (arg === 3 && (!!(cB[6] === cB[7] && cB[6] === cB[8]))) {
+                return winner = 3;
+            } else if (arg === 4 && (!!(cB[0] === cB[3] && cB[0] === cB[6]))) {
+                return winner =  4;
+            } else if (arg === 5 && (!!(cB[1] === cB[4] && cB[1] === cB[7]))) {
+                return winner = 5;
+            } else if (arg === 6 && (!!(cB[2] === cB[5] && cB[2] === cB[8]))) {
+                return winner =  6;
+            } else if (arg === 7 && (!!(cB[0] === cB[4] && cB[0] === cB[8]))) {
+                return winner = 7;
+            } else if (arg === 8 && (!!(cB[2] === cB[4] && cB[2] === cB[6]))) {
+                return winner = 8;
+            }
+
+*/
+
+    function displayWinMessage(buttonId) {
+        let winningSymbol = document.getElementById(buttonId).innerHTML;
+        if (winningSymbol.toString().includes('cross')) {
+            alert('X is win');
+        } else {
+            alert('O is the win');
+        }
+    }
 }
 
-const screenControl = ScreenController();
-const gameControl = GameController();
-const gBoard = Gameboard();
-
-screenControl.log();
-// gameControl.log();
-// gBoard.log();
+const game = ScreenController();
