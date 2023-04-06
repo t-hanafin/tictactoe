@@ -109,19 +109,21 @@ function GameController() {
         }
     }
 
-    // no idea how to make this work yet
-    const rPP = () => {
+    // this does not work yet
+    const randomPlacePicker = () => {
         var place;
-        var cB = board.getBoard(); 
         var isBlank = false;
         do {
             place = (Math.floor(Math.random() * 10));
-            isBlank = (cB[place] === undefined)
+            if (place >= 0 && place <= 8) {
+                console.log(place);
+                isBlank = (board.getBoard()[place] === undefined);
+            }
         } while (!isBlank);
         return place;
     }
 
-    return { playRound, getBoard: board.getBoard(), rPP }
+    return { playRound, getBoard: board.getBoard() }
 }
 
 function ScreenController() {
