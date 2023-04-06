@@ -35,51 +35,45 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-#cell0 {
-    border-right: 3px solid black;
-    border-bottom: 3px solid black;
-}
-
-#cell1 {
-    border-bottom: 3px solid black;
-}
-
-#cell2 {
-    border-left: 3px solid black;
-    border-bottom: 3px solid black;
-}
-
-#cell3 {
-    border-right: 3px solid black;
-}
-
-#cell5 {
-    border-left: 3px solid black;
-}
-
-#cell6 {
-    border-right: 3px solid black;
-    border-top: 3px solid black;
-}
-
-#cell7 {
-    border-top: 3px solid black;
-}
-
-#cell8 {
-    border-left: 3px solid black;
-    border-top: 3px solid black;
-}
-
-.buttons {
-    border: 0px;
-    background-color: white;
     color: white;
-    font-size: 3em;
+}
+
+#\30 {
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+#\31 {
+    border-bottom: 3px solid black;
+}
+
+#\32 {
+    border-left: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+#\33 {
+    border-right: 3px solid black;
+}
+
+#\35 {
+    border-left: 3px solid black;
+}
+
+#\36 {
+    border-right: 3px solid black;
+    border-top: 3px solid black;
+}
+
+#\37 {
+    border-top: 3px solid black;
+}
+
+#\38 {
+    border-left: 3px solid black;
+    border-top: 3px solid black;
 }
 
 img {
-    width: 2em;
+    width: 7em;
 }

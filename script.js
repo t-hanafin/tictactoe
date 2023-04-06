@@ -112,34 +112,31 @@ function GameController() {
 
 function ScreenController() {
     const game = GameController();
-    let boardDiv = document.querySelector('.gameboard');
-    cells = document.querySelector('.cell');
-    const buttons = document.querySelectorAll('.buttons');
-    let i = 0;
-    buttons.forEach((button) => {
-        button.addEventListener('mouseup', () => {
-            game.playRound(button.id);
+    cells = document.querySelectorAll('.cell');
+    cells.forEach((cell) => {
+        cell.addEventListener('mouseup', () => {
+            game.playRound(cell.id);
             if (winner) {
-                updateScreen(button.id);
-                displayWinMessage(button.id);
+                updateScreen(cell.id);
+                displayWinMessage(cell.id);
             } else {
-                updateScreen(button.id);
+                updateScreen(cell.id);
             }
         })
     })
 
-    function updateScreen(buttonId) {
+    function updateScreen(cellID) {
         let image = document.createElement('img');
         tempBoard = board.getBoard();
-        if (tempBoard[buttonId] === "X") {
+        if (tempBoard[cellID] === "X") {
             image.src = "/cross.svg";
         } else {
             image.src = "/circle.svg";
         }
-        let thisButton = document.getElementById(buttonId);
-        thisButton.textContent = '';
-        thisButton.appendChild(image);
-        thisButton.disabled = true;
+        let thisCell = document.getElementById(cellID);
+        thisCell.textContent = '';
+        thisCell.appendChild(image);
+        thisCell.disabled = true;
     }
 
     function drawWinLines(winner) {
