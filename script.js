@@ -139,9 +139,9 @@ function ScreenController() {
         let image = document.createElement('img');
         tempBoard = board.getBoard();
         if (tempBoard[cellId] === "X") {
-            image.src = "/cross.svg";
+            image.src = "./svgs/cross.svg";
         } else {
-            image.src = "/circle.svg";
+            image.src = "./svgs/circle.svg";
         }
         let thisCell = document.getElementById(cellId);
         thisCell.textContent = '';
