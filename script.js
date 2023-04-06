@@ -3,21 +3,19 @@
 function Gameboard() {
     const rows = 3;
     const columns = 3;
+    var tie;
     // the 'cells' are from 1 to 9
-    const board = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
-
-    // Populates the board.
+    const board = [ ];
 
     const getBoard = () => board;
 
     function addPiece(buttonId, symbol) {
-        if (board[buttonId] === 0 || board[buttonId] === null) {
+        if (!board[buttonId]) {
             board[buttonId] = symbol;
         }
     }
 
     return { getBoard, addPiece };
-
 }
 
 function GameController() {
@@ -40,14 +38,15 @@ function GameController() {
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0]
     }
-    
+
     const playRound = (buttonId) => {
         board.addPiece(buttonId, activePlayer.symbol);
         winner = (winScan(buttonId, activePlayer.symbol));
-        if (!winner) {
+        tie = Object.keys(board.getBoard()).length > 8;
+        if (!winner && !tie) {
             switchPlayerTurn();
         } else {
-            return winner;
+            return (winner ? winner : tie);
         }
     }
 
@@ -107,18 +106,33 @@ function GameController() {
         }
     }
 
-    return { playRound, getBoard: board.getBoard(), caseMatch }
+    // no idea how to make this work yet
+    const randomPiecePlacer = () => {
+        var cB = board.getBoard(); 
+        var isBlank = false;
+        do {
+            place = (Math.floor(Math.random() * 10));
+            isBlank = (cB[place] === undefined)
+        } while (!isBlank);
+        playRound(place);
+    }
+
+    return { playRound, getBoard: board.getBoard(), caseMatch, randomPiecePlacer }
 }
 
 function ScreenController() {
     const game = GameController();
     cells = document.querySelectorAll('.cell');
+    players = document.querySelector('.players');
     cells.forEach((cell) => {
         cell.addEventListener('mouseup', () => {
             game.playRound(cell.id);
             if (winner) {
                 updateScreen(cell.id);
                 displayWinMessage(cell.id);
+            } else if (tie) {
+                updateScreen(cell.id);
+                console.log('stupid tie');
             } else {
                 updateScreen(cell.id);
             }
@@ -136,80 +150,22 @@ function ScreenController() {
         let thisCell = document.getElementById(cellID);
         thisCell.textContent = '';
         thisCell.appendChild(image);
-        thisCell.disabled = true;
+        thisCell.style = "pointer-events: none";
     }
-
-    function drawWinLines(winner) {
-        var cellOne;
-        var cellTwo;
-        var cellThree;
-        switch (winner) {
-            case 1:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-            case 2:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-            case 3:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-
-            case 4:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-
-            case 5:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-
-            case 6:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-
-            case 7:
-                cellOne = document.getElementById(0);
-                cellTwo = document.getElementById(1);
-                cellThree = document.getElementById(2);
-
-            case 8:
-        }
-    }
-
-    /*
-
-                if (arg === 1 && (!!(cB[0] === cB[1] && cB[0] === cB[2]))) {
-                return winner = 1;
-            } else if (arg === 2 && (!!(cB[3] === cB[4] && cB[3] === cB[5]))) {
-                return winner = 2;
-            } else if (arg === 3 && (!!(cB[6] === cB[7] && cB[6] === cB[8]))) {
-                return winner = 3;
-            } else if (arg === 4 && (!!(cB[0] === cB[3] && cB[0] === cB[6]))) {
-                return winner =  4;
-            } else if (arg === 5 && (!!(cB[1] === cB[4] && cB[1] === cB[7]))) {
-                return winner = 5;
-            } else if (arg === 6 && (!!(cB[2] === cB[5] && cB[2] === cB[8]))) {
-                return winner =  6;
-            } else if (arg === 7 && (!!(cB[0] === cB[4] && cB[0] === cB[8]))) {
-                return winner = 7;
-            } else if (arg === 8 && (!!(cB[2] === cB[4] && cB[2] === cB[6]))) {
-                return winner = 8;
-            }
-
-*/
 
     function displayWinMessage(buttonId) {
+        screen = document.querySelector('body');
         let winningSymbol = document.getElementById(buttonId).innerHTML;
         if (winningSymbol.toString().includes('cross')) {
-            alert('X is win');
+            console.log('X is win');
+            screen.style = "background-color: red";
         } else {
-            alert('O is the win');
+            console.log('O is the win');
+            screen.style = "background-color: yellow";
         }
+        cells.forEach((cell) => {
+            cell.style = "pointer-events: none";
+        })
     }
 }
 
