@@ -120,7 +120,7 @@ function ScreenController() {
         button.addEventListener('mouseup', () => {
             game.playRound(button.id);
             if (winner) {
-                updateScreen(button.id, winner);
+                updateScreen(button.id);
                 displayWinMessage(button.id);
             } else {
                 updateScreen(button.id);
@@ -129,20 +129,17 @@ function ScreenController() {
     })
 
     function updateScreen(buttonId) {
-        if (winner) {
-            drawWinLines(winner);
+        let image = document.createElement('img');
+        tempBoard = board.getBoard();
+        if (tempBoard[buttonId] === "X") {
+            image.src = "/cross.svg";
         } else {
-            let image = document.createElement('img');
-            tempBoard = board.getBoard();
-            if (tempBoard[buttonId] === "X") {
-                image.src = "/cross.svg";
-            } else {
-                image.src = "/circle.svg";
-            }
-            let thisButton = document.getElementById(buttonId);
-            thisButton.appendChild(image);
-            thisButton.disabled = true;
+            image.src = "/circle.svg";
         }
+        let thisButton = document.getElementById(buttonId);
+        thisButton.textContent = '';
+        thisButton.appendChild(image);
+        thisButton.disabled = true;
     }
 
     function drawWinLines(winner) {
