@@ -44,6 +44,7 @@ function GameController() {
         if (gameType === 1) {
             board.addPiece(buttonId, activePlayer.symbol);
             winner = (winScan(buttonId, activePlayer.symbol));
+            console.log(winner);
             tie = Object.keys(board.getBoard()).length > 8;
             if (!winner && !tie) {
                 switchPlayerTurn();
@@ -89,6 +90,7 @@ function GameController() {
         var cB = board.getBoard();
         var winner = false;
         for (arg of args) {
+            console.log(`checking case ${arg}`)
             if (arg === 1 && (!!(cB[0] === cB[1] && cB[0] === cB[2]))) {
                 return winner = 1;
             } else if (arg === 2 && (!!(cB[3] === cB[4] && cB[3] === cB[5]))) {
@@ -96,11 +98,11 @@ function GameController() {
             } else if (arg === 3 && (!!(cB[6] === cB[7] && cB[6] === cB[8]))) {
                 return winner = 3;
             } else if (arg === 4 && (!!(cB[0] === cB[3] && cB[0] === cB[6]))) {
-                return winner =  4;
+                return winner = 4;
             } else if (arg === 5 && (!!(cB[1] === cB[4] && cB[1] === cB[7]))) {
                 return winner = 5;
             } else if (arg === 6 && (!!(cB[2] === cB[5] && cB[2] === cB[8]))) {
-                return winner =  6;
+                return winner = 6;
             } else if (arg === 7 && (!!(cB[0] === cB[4] && cB[0] === cB[8]))) {
                 return winner = 7;
             } else if (arg === 8 && (!!(cB[2] === cB[4] && cB[2] === cB[6]))) {
