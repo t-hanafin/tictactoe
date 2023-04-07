@@ -1,10 +1,6 @@
 // Stores the state of the game.
 
 function Gameboard() {
-    const rows = 3;
-    const columns = 3;
-    var tie;
-    // the 'cells' are from 1 to 9
     const board = [ ];
 
     const getBoard = () => board;
@@ -20,7 +16,6 @@ function Gameboard() {
 
 function GameController() {
     board = Gameboard(); 
-    const gameType = 1;
 
     const playerFactory = (name, symbol) => {
         return { name, symbol };
@@ -41,56 +36,53 @@ function GameController() {
     }
 
     const playRound = (buttonId) => {
-        if (gameType === 1) {
-            board.addPiece(buttonId, activePlayer.symbol);
-            winner = (winScan(buttonId, activePlayer.symbol));
-            console.log(winner);
-            tie = Object.keys(board.getBoard()).length > 8;
-            if (!winner && !tie) {
-                switchPlayerTurn();
-            } else {
-                return (winner ? winner : tie);
-            }
+        board.addPiece(buttonId, activePlayer.symbol);
+        winner = (winScan(buttonId, activePlayer.symbol));
+        console.log(winner);
+        tie = Object.keys(board.getBoard()).length > 8;
+        if (!winner && !tie) {
+            switchPlayerTurn();
+        } else {
+            return (winner ? winner : tie);
         }
     }
 
     const winScan = (buttonId) => {
         switch (parseInt(buttonId)) {
             case 0:
-                return caseMatch(1, 4, 7);
+                return winCaseMatch(1, 4, 7);
                 break;
             case 1:
-                return caseMatch(1, 5);
+                return winCaseMatch(1, 5);
                 break;
             case 2:
-                return caseMatch(1, 6, 8);
+                return winCaseMatch(1, 6, 8);
                 break;
             case 3:
-                return caseMatch(2, 4);
+                return winCaseMatch(2, 4);
                 break;
             case 4:
-                return caseMatch(2, 5, 7, 8);
+                return winCaseMatch(2, 5, 7, 8);
                 break;
             case 5:
-                return caseMatch(2, 6);
+                return winCaseMatch(2, 6);
                 break;
             case 6:
-                return caseMatch(3, 4, 8);
+                return winCaseMatch(3, 4, 8);
                 break;
             case 7:
-                return caseMatch(3, 5);
+                return winCaseMatch(3, 5);
                 break;
             case 8:
-                return caseMatch(3, 6, 7);
+                return winCaseMatch(3, 6, 7);
                 break;
         }
     }
 
-    const caseMatch = (...args) => {
+    const winCaseMatch = (...args) => {
         var cB = board.getBoard();
         var winner = false;
         for (arg of args) {
-            console.log(`checking case ${arg}`)
             if (arg === 1 && (!!(cB[0] === cB[1] && cB[0] === cB[2]))) {
                 return winner = 1;
             } else if (arg === 2 && (!!(cB[3] === cB[4] && cB[3] === cB[5]))) {
