@@ -38,7 +38,6 @@ function GameController() {
     const playRound = (buttonId) => {
         board.addPiece(buttonId, activePlayer.symbol);
         winner = (winScan(buttonId, activePlayer.symbol));
-        console.log(winner);
         tie = Object.keys(board.getBoard()).length > 8;
         if (!winner && !tie) {
             switchPlayerTurn();
@@ -122,8 +121,9 @@ function GameController() {
 
 function ScreenController() {
     const game = GameController();
-    cells = document.querySelectorAll('.cell');
-    players = document.querySelector('.players');
+    var cells = document.querySelectorAll('.cell');
+    var players = document.querySelector('.players');
+    var screen = document.querySelector('body');
     cells.forEach((cell) => {
         cell.addEventListener('mouseup', () => {
             outcome = game.playRound(cell.id);
@@ -133,11 +133,12 @@ function ScreenController() {
 
     function updateScreen(cellId) {
         let image = document.createElement('img');
-        tempBoard = board.getBoard();
-        if (tempBoard[cellId] === "X") {
+        if (board.getBoard()[cellId] === "X") {
             image.src = "./svgs/cross.svg";
+            image.id = "X";
         } else {
             image.src = "./svgs/circle.svg";
+            image.id = "O";
         }
         let thisCell = document.getElementById(cellId);
         thisCell.textContent = '';
@@ -151,21 +152,17 @@ function ScreenController() {
             displayWinMessage(cellId);
         } else if (tie) {
             updateScreen(cellId);
-            console.log('stupid tie');
+            screen.style = 'background-color: green';
         } else {
             updateScreen(cellId);
         }
     }
 
-    function displayWinMessage(buttonId) {
-        screen = document.querySelector('body');
-        let winningSymbol = document.getElementById(buttonId).innerHTML;
-        if (winningSymbol.toString().includes('cross')) {
-            console.log('X is win');
-            screen.style = "background-color: red";
+    function displayWinMessage(cellId) {
+        if (board.getBoard()[cellId] === 'X') {
+            screen.style = 'background-color: red';
         } else {
-            console.log('the win is O');
-            screen.style = "background-color: yellow";
+            screen.style = 'background-color: yellow';
         }
         cells.forEach((cell) => {
             cell.style = "pointer-events: none";
