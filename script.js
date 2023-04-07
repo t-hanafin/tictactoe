@@ -42,7 +42,7 @@ function GameController() {
         if (!winner && !tie) {
             switchPlayerTurn();
         } else {
-            return (winner ? winner : tie);
+            return winner ? winner : tie;
         }
     }
 
