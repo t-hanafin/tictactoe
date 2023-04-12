@@ -122,15 +122,15 @@ function GameController() {
 function ScreenController() {
     const game = GameController();
     var cells = document.querySelectorAll('.cell');
-    var players = document.querySelector('.players');
     var screen = document.querySelector('body');
+
     cells.forEach((cell) => {
         cell.addEventListener('mouseup', () => {
             outcome = game.playRound(cell.id);
             outcomeTest(outcome, cell.id);
         })
     })
-
+    
     function updateScreen(cellId) {
         let image = document.createElement('img');
         if (board.getBoard()[cellId] === "X") {
@@ -152,7 +152,7 @@ function ScreenController() {
             displayWinMessage(cellId);
         } else if (tie) {
             updateScreen(cellId);
-            screen.style = 'background-color: black';
+            screen.style = 'background-color: lightyellow';
         } else {
             updateScreen(cellId);
         }
@@ -168,6 +168,8 @@ function ScreenController() {
             cell.style = "pointer-events: none";
         })
     }
+
+
 }
 
 const game = ScreenController();
