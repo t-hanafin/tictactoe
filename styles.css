@@ -6,6 +6,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .gameboard {
@@ -24,11 +25,24 @@ body {
     justify-content: center;
     gap: 100px;
     margin: 75px;
-    border: 1px solid black;
 }
 
-.players > p {
-    border: 1px solid black;
+.players > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    border: 0px;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    text-align: center;
 }
 
 .cell {

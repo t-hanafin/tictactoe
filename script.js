@@ -152,7 +152,7 @@ function ScreenController() {
             displayWinMessage(cellId);
         } else if (tie) {
             updateScreen(cellId);
-            screen.style = 'background-color: green';
+            screen.style = 'background-color: black';
         } else {
             updateScreen(cellId);
         }
@@ -160,9 +160,9 @@ function ScreenController() {
 
     function displayWinMessage(cellId) {
         if (board.getBoard()[cellId] === 'X') {
-            screen.style = 'background-color: red';
+            screen.style = 'background-color: lightskyblue';
         } else {
-            screen.style = 'background-color: yellow';
+            screen.style = 'background-color: lightgreen';
         }
         cells.forEach((cell) => {
             cell.style = "pointer-events: none";
