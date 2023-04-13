@@ -116,13 +116,51 @@ function GameController() {
         return place;
     }
 
-    return { playRound, getBoard: board.getBoard() }
+    return { playerFactory, playRound, getBoard: board.getBoard() }
 }
 
 function ScreenController() {
     const game = GameController();
     var cells = document.querySelectorAll('.cell');
-    var screen = document.querySelector('body');
+    var gameBoard = document.querySelector('.gameboard');
+    var playerInfOButtons = document.querySelectorAll('.player-info-button');
+    var popUpForm = document.querySelector('.pop-up');
+    var playerInfoForm = document.querySelector('form');
+    var playerInfo = document.querySelectorAll('player-info');
+
+    playerInfOButtons.forEach((button) => {
+        button.addEventListener('mouseup', () => {
+            popUpForm.style.display = "inline";
+            playerInfoForm.id = button.id;
+        })
+    })
+
+    // Hides player info form when escape is pressed anywhere.
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            popUpForm.style.display = 'none';
+        }
+    });
+
+    playerInfoForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // playerInfoForm.elements[0].value;
+        popUpForm.style.display = 'none';
+        let playerName = playerInfoForm.elements[0].value;
+        if (playerInfoForm.id === 'X') {
+            let playerNameDiv = document.getElementById('player-X');
+            let playerNameP = document.createElement('p');
+            playerNameP.textContent = playerName;
+            playerNameDiv.appendChild(playerNameP);
+//            playerX = game.playerFactory(playerName, 'X');
+        } else {
+            let playerNameDiv = document.getElementById('player-O');
+            let playerNameP = document.createElement('p');
+            playerNameP.textContent = playerName;
+            playerNameDiv.appendChild(playerNameP);
+//            playerO = game.playerFactory(playerName, 'O');
+        }
+    });
 
     cells.forEach((cell) => {
         cell.addEventListener('mouseup', () => {
@@ -130,7 +168,7 @@ function ScreenController() {
             outcomeTest(outcome, cell.id);
         })
     })
-    
+
     function updateScreen(cellId) {
         let image = document.createElement('img');
         if (board.getBoard()[cellId] === "X") {
@@ -152,7 +190,8 @@ function ScreenController() {
             displayWinMessage(cellId);
         } else if (tie) {
             updateScreen(cellId);
-            screen.style = 'background-color: lightyellow';
+            gameBoard.style = 'background-color: rgb(255, 255, 121)';
+            alert(`It's a tie.`);
         } else {
             updateScreen(cellId);
         }
@@ -160,9 +199,13 @@ function ScreenController() {
 
     function displayWinMessage(cellId) {
         if (board.getBoard()[cellId] === 'X') {
-            screen.style = 'background-color: lightskyblue';
+            gameBoard.style = 'background-color: lightskyblue';
+            winnerName = document.getElementById('player-X').textContent;
+            alert(`Congratulations to ${winnerName}.`);
         } else {
-            screen.style = 'background-color: lightgreen';
+            gameBoard.style = 'background-color: lightgreen';
+            winnerName = document.getElementById('player-O').textContent;
+            alert(`Congratulations to ${winnerName}.`);
         }
         cells.forEach((cell) => {
             cell.style = "pointer-events: none";
