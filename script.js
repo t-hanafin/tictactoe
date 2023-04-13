@@ -168,8 +168,6 @@ function ScreenController() {
             cell.style = "pointer-events: none";
         })
     }
-
-
 }
 
 const game = ScreenController();
